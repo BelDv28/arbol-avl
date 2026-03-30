@@ -11,25 +11,34 @@ public class Main extends JFrame{
         setSize(500, 400);
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setLocationRelativeTo(null);
-        setLayout(new GridLayout(2, 1, 10, 10));
+        JPanel panel = new JPanel();
+        panel.setLayout(new GridBagLayout());
+
+        GridBagConstraints gbc = new GridBagConstraints();
+        gbc.insets = new Insets(10, 10, 10, 10);
 
         JButton btnAVL = new JButton("Árbol AVL");
         JButton btnB = new JButton("Árbol B");
 
-        // Acción botón AVL
         btnAVL.addActionListener(e -> {
             AVLTreeGUI avl = new AVLTreeGUI();
+            avl.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
             avl.setVisible(true);
         });
 
-        // Acción botón Árbol B
         btnB.addActionListener(e -> {
             ArbolBGUI arbolB = new ArbolBGUI();
+            arbolB.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
             arbolB.setVisible(true);
         });
 
-        add(btnAVL);
-        add(btnB);
+        gbc.gridy = 0;
+        panel.add(btnAVL, gbc);
+
+        gbc.gridy = 1;
+        panel.add(btnB, gbc);
+
+        add(panel);
     }
 
     public static void main(String[] args) {
