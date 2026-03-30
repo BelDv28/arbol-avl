@@ -7,11 +7,41 @@ public class ArbolB
 
     //Constructor
     public ArbolB(int grado) {
-        this.clavesMin = (int) Math.ceil(grado / 2.0);
+        this.clavesMin = (int) Math.ceil(((grado)) / 2.0);
         this.raiz = new NodoB(clavesMin, true);
     }
+    public boolean contiene(int clave) {
+        return buscar(raiz, clave);
+    }
 
-    public void insertar(int clave) {
+    private boolean buscar(NodoB nodo, int clave) {
+        // Buscar la posición donde podría estar la clave
+        int i = 0;
+        while (i < nodo.clavesOcupadas && clave > nodo.claves[i]) {
+            i++;
+        }
+
+        // ¿La encontramos exactamente?
+        if (i < nodo.clavesOcupadas && clave == nodo.claves[i]) {
+            return true;
+        }
+
+        // Si es hoja y no la encontramos, no existe
+        if (nodo.esHoja) {
+            return false;
+        }
+
+        // Bajar al hijo correspondiente
+        return buscar(nodo.hijos[i], clave);
+    }
+
+    public boolean insertar(int clave) {
+
+        // Verificar duplicado ANTES de insertar
+        if (contiene(clave)) {
+            return false; // duplicado ignorado
+        }
+
         NodoB r = raiz;
 
         if (r.clavesOcupadas == 2 * clavesMin - 1) {
@@ -22,7 +52,9 @@ public class ArbolB
             insertarNoLleno(nuevaRaiz, clave);
         } else {
             insertarNoLleno(r, clave);
-        }   
+        }
+
+        return true; // insertado con éxito
     }
 
     private void insertarNoLleno(NodoB nodo, int clave) {

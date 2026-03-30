@@ -6,13 +6,13 @@ public class NodoB
     public int clavesOcupadas;
     public NodoB[] hijos;
     public boolean esHoja;
-    public int gradoMin;
+    public int clavesMin;
 
     NodoB(int t, boolean isLeaf) {
-        this.gradoMin      = t;
+        this.clavesMin = t;
         this.esHoja = isLeaf;
-        this.claves     = new int[2 * t - 1];   // máx. 4 slots
-        this.hijos = new NodoB[2 * t];  // máx. 6 slots
+        this.claves     = new int[2*t -1];   // máx. 4 slots
+        this.hijos = new NodoB[2*t]; // máx. 5 slots
         this.clavesOcupadas        = 0; // vacío al crear
     }
 }

@@ -143,16 +143,22 @@ public class ArbolBGUI extends JFrame
         if (texto.isEmpty()) return;
         try {
             int clave = Integer.parseInt(texto);
-            arbol.insertar(clave);
-            actualizarJTree();
-            log("Insertado: " + clave);
-            setEstado("Insertado: " + clave);
+            boolean insertado = arbol.insertar(clave);
+            if (insertado) {
+                actualizarJTree();
+                log("Insertado: " + clave);
+                setEstado("Insertado: " + clave);
+            } else {
+                log("DUPLICADO ignorado: " + clave + " ya existe en el árbol.");
+                setEstado("Duplicado ignorado: " + clave);
+
+            }
             txtNumero.setText("");
             txtNumero.requestFocus();
         } catch (NumberFormatException ex) {
             JOptionPane.showMessageDialog(this,
-                    "\"" + texto + "\" no es un numero entero valido.",
-                    "Valor invalido", JOptionPane.WARNING_MESSAGE);
+                    "\"" + texto + "\" no es un número entero válido.",
+                    "Valor inválido", JOptionPane.WARNING_MESSAGE);
         }
     }
     private void accionCargarArchivo() {
@@ -220,13 +226,11 @@ public class ArbolBGUI extends JFrame
         actualizarJTree();
 
         if (eleccion == 1) {
-            // ── AUTOMÁTICO ────────────────────────────────────────
             log("Modo: Automático");
             setEstado("Construyendo árbol...");
             setBotonesNavegacion(false, false, false);
             iniciarModoAutomatico();
         } else {
-            // ── PASO A PASO (default si el usuario cierra el diálogo)
             log("Modo: Paso a paso");
             modoActivo = true;
             setBotonesNavegacion(false, true, true);
@@ -368,9 +372,6 @@ public class ArbolBGUI extends JFrame
         }
     }
 
-    // ══════════════════════════════════════════════════════════════
-    //  UTILIDADES
-    // ══════════════════════════════════════════════════════════════
     private void log(String msg) {
         txtConsola.append(msg + "\n");
         txtConsola.setCaretPosition(txtConsola.getDocument().getLength());
